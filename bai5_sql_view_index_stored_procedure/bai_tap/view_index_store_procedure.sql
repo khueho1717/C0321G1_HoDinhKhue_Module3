@@ -51,7 +51,40 @@ drop view products_views;
 
 -- buoc 5
 
+-- insert
 
+delimiter //
+create procedure insert_product(in product_code varchar(45), in product_name varchar(45), in product_price float, in product_amount int,in product_description varchar(45),in product_status bit) 
+begin
+insert into products(product_code,product_name,product_price , product_amount,product_description, product_status)
+value(product_code,product_name,product_price , product_amount,product_description, product_status);
+end//
+delimiter ;
+call insert_product('p8','iphone 8',700,2000,'man hinh lon',1);
+
+-- update
+SET SQL_SAFE_UPDATES = 0;
+delimiter //
+create procedure update_product(in product_code varchar(45), in product_name varchar(45)) 
+begin
+update products
+set products.product_name=product_name
+where products.product_code=product_code;
+end //
+delimiter ;
+
+call update_product('p8','iphone 8 plus');
+
+-- delete
+delimiter //
+create procedure delete_product(in product_code varchar(45)) 
+begin
+delete from products
+where products.product_code=product_code;
+end //
+delimiter ;
+
+call delete_product('p8');
 
 
 

@@ -100,11 +100,7 @@ join dich_vu_di_kem on hop_dong_chi_tiet.id_dich_vu_di_kem = dich_vu_di_kem.id_d
 where ten_loai_khach = 'Diamond' and ( dia_chi = 'vinh' or dia_chi = 'quang ngai');
 
 -- task 12
--- 12.	Hiển thị thông tin IDHopDong, TenNhanVien, TenKhachHang,
---  SoDienThoaiKhachHang, TenDichVu,
---  SoLuongDichVuDikem (được tính dựa trên tổng Hợp đồng chi tiết),
---  TienDatCoc của tất cả các dịch vụ đã từng được khách hàng đặt vào 3 tháng cuối năm 2019
---  nhưng chưa từng được khách hàng đặt vào 6 tháng đầu năm 2019.
+
 select hop_dong.id_hop_dong, nhan_vien.ho_ten as nhan_vien, khach_hang.ho_ten as khach_hang, khach_hang.sdt, loai_dich_vu.ten_loai_dich_vu, count(id_hop_dong_chi_tiet) as so_luong_dich_vu_di_kem, sum(tien_dat_coc) as tien_dat_coc
 from hop_dong
 left join khach_hang on hop_dong.id_khach_hang = khach_hang.id_khach_hang
@@ -153,8 +149,33 @@ where id_nhan_vien not in (select id_nhan_vien from hop_dong where year(ngay_lam
 
 update khach_hang
 set id_loai_khach=1
-where id_loai_khach=2 and id_loai_khach in (fgsdgs)
+where id_loai_khach=2 and id_khach_hang in (select id_khach_hang from hop_dong where hop_dong.tong_tien >=10000000 );
 
+
+-- task 18
+
+delete from khach_hang
+where id_khach_hang in (select id_khach_hang from hop_dong where year(ngay_lam_hop_dong)<2016);
+
+-- task 19
+
+update dich_vu_di_kem
+set gia=gia*2
+where id_dich_vu_di_kem 
+in (select id_dich_vu_di_kem 
+from hop_dong_chi_tiet  
+group by id_dich_vu_di_kem 
+having count(id_dich_vu_di_kem)>=10);
+
+-- task 20
+
+
+-- ID (IDNhanVien, IDKhachHang), HoTen, Email, SoDienThoai, NgaySinh, DiaChi.
+select id_nhan_vien, ho_ten, email, sdt, ngay_sinh, dia_chi
+from nhan_vien
+union all
+select id_khach_hang, ho_ten, email, sdt, ngay_sinh, dia_chi
+from khach_hang
 
 
 

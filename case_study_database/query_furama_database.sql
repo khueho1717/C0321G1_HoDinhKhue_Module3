@@ -100,6 +100,60 @@ join dich_vu_di_kem on hop_dong_chi_tiet.id_dich_vu_di_kem = dich_vu_di_kem.id_d
 where ten_loai_khach = 'Diamond' and ( dia_chi = 'vinh' or dia_chi = 'quang ngai');
 
 -- task 12
+-- 12.	Hiển thị thông tin IDHopDong, TenNhanVien, TenKhachHang,
+--  SoDienThoaiKhachHang, TenDichVu,
+--  SoLuongDichVuDikem (được tính dựa trên tổng Hợp đồng chi tiết),
+--  TienDatCoc của tất cả các dịch vụ đã từng được khách hàng đặt vào 3 tháng cuối năm 2019
+--  nhưng chưa từng được khách hàng đặt vào 6 tháng đầu năm 2019.
+select hop_dong.id_hop_dong, nhan_vien.ho_ten as nhan_vien, khach_hang.ho_ten as khach_hang, khach_hang.sdt, loai_dich_vu.ten_loai_dich_vu, count(id_hop_dong_chi_tiet) as so_luong_dich_vu_di_kem, sum(tien_dat_coc) as tien_dat_coc
+from hop_dong
+left join khach_hang on hop_dong.id_khach_hang = khach_hang.id_khach_hang
+left join dich_vu on dich_vu.id_dich_vu = hop_dong.id_dich_vu
+left join loai_dich_vu on loai_dich_vu.id_loai_dich_vu= dich_vu.id_loai_dich_vu
+left join hop_dong_chi_tiet on hop_dong.id_hop_dong = hop_dong_chi_tiet.id_hop_dong
+left join dich_vu_di_kem on hop_dong_chi_tiet.id_dich_vu_di_kem = dich_vu_di_kem.id_dich_vu_di_kem
+left join nhan_vien on nhan_vien.id_nhan_vien = hop_dong.ID_nhan_vien 
+where (year(ngay_lam_hop_dong)=2019  and month(ngay_lam_hop_dong) between 10 and 12) not in(year(ngay_lam_hop_dong)=2019  and month(ngay_lam_hop_dong) between 1 and 9)
+group by id_hop_dong;
+
+
+-- task 13
+
+select dich_vu_di_kem.*, sum(so_luong) as tong_so_luong, count(dich_vu_di_kem.id_dich_vu_di_kem) as tong_lan_dat
+from  hop_dong_chi_tiet
+join dich_vu_di_kem on hop_dong_chi_tiet.id_dich_vu_di_kem = dich_vu_di_kem.id_dich_vu_di_kem
+group by id_dich_vu_di_kem;
+
+-- task 14
+
+select dich_vu_di_kem.*, sum(so_luong) as so_luong, count(dich_vu_di_kem.id_dich_vu_di_kem) as tong_lan_dat
+from  hop_dong_chi_tiet
+join dich_vu_di_kem on hop_dong_chi_tiet.id_dich_vu_di_kem = dich_vu_di_kem.id_dich_vu_di_kem
+group by id_dich_vu_di_kem
+having tong_lan_dat=1;
+
+-- task 15	Hiển thi thông tin của tất cả nhân viên bao gồm IDNhanVien, HoTen, TrinhDo, TenBoPhan, SoDienThoai,
+--  DiaChi mới chỉ lập được tối đa 3 hợp đồng từ năm 2018 đến 2019.
+
+select nhan_vien.id_nhan_vien, nhan_vien.ho_ten, trinh_do.trinh_do, bo_phan.ten_bo_phan, nhan_vien.sdt, nhan_vien.dia_chi,count(id_hop_dong) so_luong_hop_dong,ngay_lam_hop_dong
+from nhan_vien
+left join trinh_do on nhan_vien.ID_trinh_do = trinh_do.ID_trinh_do
+left join bo_phan on bo_phan.ID_bo_phan = nhan_vien.ID_bo_phan
+left join hop_dong on nhan_vien.ID_nhan_vien = hop_dong.ID_nhan_vien
+group by nhan_vien.ID_nhan_vien
+having count(id_hop_dong) <=3 and (hop_dong.ngay_lam_hop_dong between '2018-01-01' and '2019-12-31' or hop_dong.ngay_lam_hop_dong is null);
+
+
+-- task 16
+
+delete from nhan_vien
+where id_nhan_vien not in (select id_nhan_vien from hop_dong where year(ngay_lam_hop_dong) between 2017 and 2019);
+
+-- task 17
+
+update khach_hang
+set id_loai_khach=1
+where id_loai_khach=2 and id_loai_khach in (fgsdgs)
 
 
 

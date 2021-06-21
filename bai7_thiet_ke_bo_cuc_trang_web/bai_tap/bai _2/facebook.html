@@ -1,112 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            margin: 0 0;
-        }
-
-        .navbar {
-            overflow: hidden;
-            background-color: #4285F4;
-            position: fixed;
-            width: 100%;
-
-        }
-
-        .navbar a {
-            float: right;
-            font-size: 16px;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-        .dropdown {
-            float: right;
-            overflow: hidden;
-        }
-
-        .dropdown .dropbtn {
-            font-size: 16px;
-            border: none;
-            outline: none;
-            color: white;
-            padding: 14px 16px;
-            background-color: inherit;
-            font-family: inherit;
-            margin: 0;
-        }
-
-        .navbar a:hover, .dropdown:hover .dropbtn {
-            background-color: red;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: fixed;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-        }
-
-        .dropdown-content a {
-            float: none;
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: left;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #ddd;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        #menu-fixed {
-            padding-right: 200px;
-
-        }
-        #main1{
-            clear: both;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="facebook.css">
 </head>
 <body>
 
 <div class="navbar">
     <div id="menu-fixed">
         <div class="dropdown">
-            <button class="dropbtn">Dropdown
+            <button class="dropbtn">Tùy chọn
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-content">
-                <a href="#">Link 1</a>
-                <a href="#">Link 2</a>
-                <a href="#">Link 3</a>
+                <a href="#">Quyền riêng tư</a>
+                <a href="#">Bảo mật</a>
+                <a href="#">Cài đặt bảng tin</a>
+                <a href="#">Đăng xuất</a>
             </div>
         </div>
-        <a href="#home">Home</a>
-        <a href="#news">News</a>
+        <a href="#home">Kết bạn </a>
+        <a href="#news">Tin nhắn</a>
+        <a href="#news">Thông báo</a>
+        <a href="#news">Trang cá nhân</a>
+        <a href="#news">Bảng tin</a>
     </div>
-    <a href="#home" style="float: left"><img
+    <a href="#home" style="float: left;height: 48px"><img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLks1M7oSGLlFq3uZzs3S2CakVEJYdK0icCg&usqp=CAU"
             width="70px" height="30px"></a>
 
 </div>
-<div id="main1" style="margin-bottom: 80px;">
-    <h3>Dropdown Menu inside a Navigation Bar</h3>
-    <p>Hover over the "Dropdown" link to see the dropdown menu.</p>
+<div style="overflow:auto;height: 1500px;margin-top: 60px">
+    <div class="menu">
+        <a href="#">Macbook</a>
+        <a href="#">Iphone</a>
+        <a href="#">Loa</a>
+        <a href="#">Màn hình</a>
+    </div>
+
+    <div class="main">
+        <h1>Trang chủ</h1>
+        <p>Thong tin chi tiết sản phẩm.</p>
+        <div>
+            <h2>Giới thiệu</h2>
+            <p>trang bán hàng điện tử</p>
+        </div>
+        <div style="border-top: #58257b solid;clear: both">
+            <h2>Liên hệ</h2>
+            <p>Điện thoại: 024 2242 6188.</p>
+            <p>Email: langcongnghe@gmail.com.vn</p>
+        </div>
+        <div style="border-top: #58257b solid;clear: both">
+            <h2>Liên hệ</h2>
+            <p>Điện thoại: 024 2242 6188.</p>
+            <p>Email: langcongnghe@gmail.com.vn</p>
+        </div>
+        <div style="border-top: #58257b solid;clear: both">
+            <h2>Liên hệ</h2>
+            <p>Điện thoại: 024 2242 6188.</p>
+            <p>Email: langcongnghe@gmail.com.vn</p>
+        </div>
+    </div>
+
+    <div class="right">
+        <h2>Thông tin bạn bè đang hoạt động</h2>
+        <p>Nguyễn Văn</p>
+    </div>
 </div>
-<p>dèhrhfơủhfó</p>
 
 </body>
 </html>

@@ -32,11 +32,27 @@ public class ProductServlet extends HttpServlet {
             case "delete":
                 deleteProduct(request, response);
                 break;
+            case "find":
+                findProduct(request,response);
+                break;
             default:
                 break;
         }
     }
+    private void findProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("name_product");
+        List<Product> productList = this.productService.findAll();
+        for (Product product :
+                productList) {
+            if (product.getNameProduct().contains(name)){
+                RequestDispatcher dispatcher;
+                request.setAttribute("product", product);
+                dispatcher = request.getRequestDispatcher("product/view.jsp");
+                dispatcher.forward(request,response);
+            }
+        }
 
+    }
     private void deleteProduct(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("id"));
         Product product = this.productService.findById(id);
@@ -121,25 +137,23 @@ public class ProductServlet extends HttpServlet {
                 viewProduct(request, response);
                 break;
             case "find":
-                findProduct(request, response);
+                findForm(request, response);
             default:
                 listProducts(request, response);
                 break;
         }
     }
 
-    private void findProduct(HttpServletRequest request, HttpServletResponse response) {
-        String name = request.getParameter("name_product");
-        List<Product> productList = this.productService.findAll();
-        for (Product product :
-                productList) {
-            if (product.getNameProduct().equals(name)){
-                RequestDispatcher dispatcher;
-                request.setAttribute("product", product);
-                dispatcher = request.getRequestDispatcher("product/view.jsp");
-            }
-        }
 
+    private void findForm(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("product/find.jsp");
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void viewProduct(HttpServletRequest request, HttpServletResponse response) {

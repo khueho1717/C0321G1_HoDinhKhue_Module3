@@ -127,11 +127,28 @@ declare thoi_gian int;
 end;
 // delimiter ;
 select func_2(1) as "số ngày";
-drop function `furoma`.`func_2`;
-
 
 
 -- task 30
+
+delimiter //
+create procedure Sp_3()
+begin
+delete from dich_vu where id_dich_vu in(
+select * from (
+ select dich_vu.id_dich_vu from hop_dong
+ join dich_vu on dich_vu.id_dich_vu= hop_dong.id_dich_vu
+ join loai_dich_vu on loai_dich_vu.id_loai_dich_vu = dich_vu.id_loai_dich_vu
+ where ten_loai_dich_vu = 'Room' and year(ngay_lam_hop_dong) between 2015 and 2019) as table1) ;
+ delete from hop_dong where id_hop_dong in(
+ select * from (
+ select hop_dong.id_hop_dong from hop_dong
+ join dich_vu on dich_vu.id_dich_vu= hop_dong.id_dich_vu
+ join loai_dich_vu on loai_dich_vu.id_loai_dich_vu = dich_vu.id_loai_dich_vu
+ where ten_loai_dich_vu = 'Room' and year(ngay_lam_hop_dong) between 2015 and 2019) as table2);
+end //
+delimiter ;
+
 
 
 

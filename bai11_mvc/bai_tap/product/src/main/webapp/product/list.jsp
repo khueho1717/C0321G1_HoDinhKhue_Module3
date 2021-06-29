@@ -17,13 +17,9 @@
     <a href="/products?action=create">Create new Products</a>
 </p>
 <p>
-    <a href="/products?action=find">Create new Products</a>
+    <a href="/products?action=find">Find Products</a>
 </p>
-<form method="get" >
-    <a href="/products?action=find&name=" >Create new Products</a>
-    <label for="name_product">Find product </label><input type="text" name="name_product" id="name_product">
-    <input type="submit" value="find">
-</form>
+
 <table border="1">
     <tr>
         <td>Name product</td>

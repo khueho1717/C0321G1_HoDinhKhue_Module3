@@ -25,14 +25,16 @@ order by lan_dat;
 
 -- task 5
 
-select khach_hang.id_khach_hang, khach_hang.ho_ten,loai_khach.ten_loai_khach,hop_dong.id_hop_dong,dich_vu.ten_dich_vu,hop_dong.ngay_lam_hop_dong,hop_dong.ngay_ket_thuc, sum(dich_vu.chi_phi_thue + hop_dong_chi_tiet.so_luong*dich_vu_di_kem.gia) as tong_tien
+select khach_hang.id_khach_hang, khach_hang.ho_ten,loai_khach.ten_loai_khach,hop_dong.id_hop_dong,
+dich_vu.ten_dich_vu,hop_dong.ngay_lam_hop_dong,hop_dong.ngay_ket_thuc,
+ sum(dich_vu.chi_phi_thue + hop_dong_chi_tiet.so_luong*dich_vu_di_kem.gia) as tong_tien
 from khach_hang
 left join loai_khach on khach_hang.id_loai_khach=loai_khach.id_loai_khach
 left join hop_dong on khach_hang.id_khach_hang=hop_dong.id_khach_hang
 left join dich_vu on hop_dong.id_dich_vu=dich_vu.id_dich_vu
 left join hop_dong_chi_tiet on hop_dong.id_hop_dong=hop_dong_chi_tiet.id_hop_dong
 left join dich_vu_di_kem on hop_dong_chi_tiet.id_dich_vu_di_kem=dich_vu_di_kem.id_dich_vu_di_kem
-group by khach_hang.id_khach_hang, hop_dong.id_hop_dong, tong_tien;
+group by khach_hang.id_khach_hang;
 
 
 -- task 6
@@ -72,7 +74,8 @@ from khach_hang;
 
 -- task 9
 
-select month(ngay_lam_hop_dong) as "Thang", sum(dich_vu.chi_phi_thue +hop_dong_chi_tiet.so_luong*dich_vu_di_kem.gia) as "Tong tien",count(hop_dong.id_khach_hang) as "So khach thue dich vu"
+select month(ngay_lam_hop_dong) as "Thang", sum(dich_vu.chi_phi_thue +hop_dong_chi_tiet.so_luong*dich_vu_di_kem.gia)
+ as "Tong tien",count(hop_dong.id_khach_hang) as "So khach thue dich vu"
 from hop_dong
 join dich_vu on hop_dong.id_dich_vu=dich_vu.id_dich_vu
 join hop_dong_chi_tiet on hop_dong.id_hop_dong=hop_dong_chi_tiet.id_hop_dong
@@ -109,7 +112,8 @@ left join loai_dich_vu on loai_dich_vu.id_loai_dich_vu= dich_vu.id_loai_dich_vu
 left join hop_dong_chi_tiet on hop_dong.id_hop_dong = hop_dong_chi_tiet.id_hop_dong
 left join dich_vu_di_kem on hop_dong_chi_tiet.id_dich_vu_di_kem = dich_vu_di_kem.id_dich_vu_di_kem
 left join nhan_vien on nhan_vien.id_nhan_vien = hop_dong.ID_nhan_vien 
-where (year(ngay_lam_hop_dong)=2019  and month(ngay_lam_hop_dong) between 10 and 12) not in(year(ngay_lam_hop_dong)=2019  and month(ngay_lam_hop_dong) between 1 and 9)
+where (year(ngay_lam_hop_dong)=2019  and month(ngay_lam_hop_dong) between 10 and 12) 
+not in(year(ngay_lam_hop_dong)=2019  and month(ngay_lam_hop_dong) between 1 and 9)
 group by id_hop_dong;
 
 

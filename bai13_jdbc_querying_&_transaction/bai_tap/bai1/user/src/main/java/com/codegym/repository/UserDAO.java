@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO {
+public class UserDAO implements IUserDAO {
 
     private String jdbcURL = "jdbc:mysql://localhost:3306/user?useSSL=false";
     private String jdbcUsername = "root";
@@ -75,9 +75,10 @@ public class UserDAO {
         }
         return user;
     }
+
     public List<User> FindUser(String country) {
         User user = null;
-        List<User> users=new ArrayList<>();
+        List<User> users = new ArrayList<>();
         // Step 1: Establishing a Connection
         try (Connection connection = getConnection();
              // Step 2:Create a statement using connection object
@@ -91,7 +92,7 @@ public class UserDAO {
                 String name = rs.getString("name");
                 String email = rs.getString("email");
                 String country2 = rs.getString("country");
-                users.add(new User(id, name, email, country2)) ;
+                users.add(new User(id, name, email, country2));
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -126,6 +127,7 @@ public class UserDAO {
         }
         return users;
     }
+
     public List<User> selectSortUsers() {
 
 
@@ -169,6 +171,71 @@ public class UserDAO {
             rowUpdated = statement.executeUpdate() > 0;
         }
         return rowUpdated;
+    }
+
+    @Override
+    public List<User> showUserStore() throws SQLException {
+        List<User> userList = new ArrayList<>();
+        String query = "{CALL show_user()}";
+        try (Connection connection = getConnection();
+             CallableStatement callableStatement = connection.prepareCall(query);) {
+            ResultSet resultSet = callableStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+
+                String email = resultSet.getString("email");
+
+                String country = resultSet.getString("country");
+
+                userList.add(new User(id, name, email, country));
+            }
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        return userList;
+    }
+
+    @Override
+    public void deleteUserStore(int id) throws SQLException {
+        String query = "{CALL delete_user_by_id(?)}";
+
+        // Step 1: Establishing a Connection
+
+        try (Connection connection = getConnection();
+
+             // Step 2:Create a statement using connection object
+
+             CallableStatement callableStatement = connection.prepareCall(query);) {
+
+            callableStatement.setInt(1, id);
+            callableStatement.executeQuery();
+            callableStatement.executeLargeUpdate();
+        }catch (SQLException e) {
+            printSQLException(e);
+        }
+    }
+
+    @Override
+    public void editUserStore(int id, String name, String email, String country) throws SQLException {
+        String query = "{CALL edit_user_by_id(?,?,?,?)}";
+
+        // Step 1: Establishing a Connection
+
+        try (Connection connection = getConnection();
+
+             // Step 2:Create a statement using connection object
+
+             CallableStatement callableStatement = connection.prepareCall(query);) {
+
+            callableStatement.setInt(1, id);
+            callableStatement.setString(2, name);
+            callableStatement.setString(3, email);
+            callableStatement.setString(4, country);
+            callableStatement.executeQuery();
+        }catch (SQLException e) {
+            printSQLException(e);
+        }
     }
 
     private void printSQLException(SQLException ex) {

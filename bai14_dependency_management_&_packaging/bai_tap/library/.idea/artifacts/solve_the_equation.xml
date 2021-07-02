@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="solve_the_equation">
+    <output-path>$PROJECT_DIR$</output-path>
+    <root id="archive" name="library.jar">
+      <element id="module-output" name="library" />
+    </root>
+  </artifact>
+</component>
